@@ -1,0 +1,75 @@
+{
+  "name": "owasp-guardian",
+  "displayName": "OWASP Guardian",
+  "description": "OWASP Top 10 vulnerability scanner — inline findings, chat panel, and tiered Claude Code workflow.",
+  "version": "1.1.0",
+  "publisher": "owasp-guardian",
+  "icon": "media/icon.png",
+  "repository": { "type": "git", "url": "https://github.com/your-org/owasp-guardian" },
+  "engines": { "vscode": "^1.85.0" },
+  "categories": ["Linters", "Other"],
+  "keywords": ["security","owasp","vulnerability","static analysis","sast","devsecops"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [{ "id": "owasp-guardian", "title": "OWASP Guardian", "icon": "media/guardian-icon.svg" }]
+    },
+    "views": {
+      "owasp-guardian": [{ "type": "webview", "id": "owaspGuardian.chatView", "name": "Guardian" }]
+    },
+    "commands": [
+      { "command": "owaspGuardian.scanFile",          "title": "OWASP Guardian: Scan Current File",                    "icon": "$(shield)" },
+      { "command": "owaspGuardian.scanWorkspace",      "title": "OWASP Guardian: Scan Entire Workspace",                "icon": "$(search)" },
+      { "command": "owaspGuardian.showReport",         "title": "OWASP Guardian: Show Full Report",                     "icon": "$(book)" },
+      { "command": "owaspGuardian.clearDiagnostics",   "title": "OWASP Guardian: Clear Diagnostics",                   "icon": "$(trash)" },
+      { "command": "owaspGuardian.openChat",           "title": "OWASP Guardian: Open Chat Panel",                      "icon": "$(comment-discussion)" },
+      { "command": "owaspGuardian.runTieredWorkflow",  "title": "OWASP Guardian: Run Tiered Workflow (→ Claude Code)", "icon": "$(rocket)" }
+    ],
+    "menus": {
+      "view/title": [
+        { "command": "owaspGuardian.scanWorkspace",  "when": "view == owaspGuardian.chatView", "group": "navigation@1" },
+        { "command": "owaspGuardian.showReport",     "when": "view == owaspGuardian.chatView", "group": "navigation@2" },
+        { "command": "owaspGuardian.clearDiagnostics","when": "view == owaspGuardian.chatView","group": "navigation@3" }
+      ],
+      "editor/context": [
+        { "command": "owaspGuardian.scanFile", "group": "9_security@1", "when": "resourceLangId =~ /javascript|typescript|python|java|php|go|ruby|csharp/" }
+      ],
+      "editor/title": [
+        { "command": "owaspGuardian.scanFile", "group": "navigation", "when": "resourceLangId =~ /javascript|typescript|python|java|php|go|ruby|csharp/" }
+      ],
+      "commandPalette": [
+        { "command": "owaspGuardian.scanFile" },
+        { "command": "owaspGuardian.scanWorkspace" },
+        { "command": "owaspGuardian.showReport" },
+        { "command": "owaspGuardian.clearDiagnostics" },
+        { "command": "owaspGuardian.openChat" },
+        { "command": "owaspGuardian.runTieredWorkflow" }
+      ]
+    },
+    "configuration": {
+      "title": "OWASP Guardian",
+      "properties": {
+        "owaspGuardian.enableOnSave":          { "type": "boolean", "default": true,     "description": "Auto-scan on save" },
+        "owaspGuardian.minSeverity":           { "type": "string",  "enum": ["low","medium","high","critical"], "default": "medium", "description": "Minimum severity to report" },
+        "owaspGuardian.excludePatterns":       { "type": "array",   "default": ["**/node_modules/**","**/dist/**","**/build/**","**/*.min.js"], "description": "Glob patterns to exclude" },
+        "owaspGuardian.excludeTestFiles":      { "type": "boolean", "default": false,    "description": "Exclude test files" },
+        "owaspGuardian.showInlineDecorations": { "type": "boolean", "default": true,     "description": "Show inline severity badges" },
+        "owaspGuardian.claudeCodePath":        { "type": "string",  "default": "claude", "description": "Path to the claude CLI binary" }
+      }
+    }
+  },
+  "bin": { "guardian": "./cli/guardian.js" },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch":   "tsc -watch -p ./",
+    "package": "vsce package --no-dependencies"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/node":   "^20.0.0",
+    "typescript":    "^5.3.0",
+    "@vscode/vsce":  "^2.22.0"
+  }
+}

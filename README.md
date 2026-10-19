@@ -51,10 +51,10 @@ JavaScript · TypeScript · JSX/TSX · Python · Java · PHP · Go · Ruby · C#
 git clone https://github.com/wizard2773/owasp-guardian.git
 cd owasp-guardian
 npm install
-npm run package   # creates owasp-guardian-1.0.0.vsix
+npm run package   # creates owasp-guardian-1.1.0.vsix
 
 # 2. Install in VS Code
-code --install-extension owasp-guardian-1.0.0.vsix
+code --install-extension owasp-guardian-1.1.0.vsix
 ```
 
 ### Option B — Install from VS Code Marketplace (once published)

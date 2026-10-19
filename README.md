@@ -48,7 +48,7 @@ JavaScript · TypeScript · JSX/TSX · Python · Java · PHP · Go · Ruby · C#
 
 ```bash
 # 1. Clone and build
-git clone <your-repo>/owasp-guardian
+git clone https://github.com/wizard2773/owasp-guardian.git
 cd owasp-guardian
 npm install
 npm run package   # creates owasp-guardian-1.0.0.vsix
